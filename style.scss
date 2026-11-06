@@ -1,0 +1,344 @@
+// ===== O'zgaruvchilar =====
+$bg-1: #3b0d6b;
+$bg-2: #14051f;
+$bg-3: #0b0312;
+$accent: #d946ef; // fuchsia
+$accent-2: #9333ea; // purple
+$glass-bg: rgba(255, 255, 255, 0.06);
+$glass-border: rgba(255, 255, 255, 0.12);
+$radius: 20px;
+$ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+// Fon "pufakchalari": nomi, rangi, o'lchami, joylashuvi
+$blobs: (
+    "one": ($accent, 420px, -120px, -100px),
+    "two": ($accent-2, 360px, 40%, 85%),
+    "three": (#3b82f6, 300px, 75%, 10%),
+);
+
+// ===== Mixinlar =====
+@mixin glass($blur: 14px) {
+    background: $glass-bg;
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+    border: 1px solid $glass-border;
+}
+
+@mixin gradient-text($from, $to) {
+    background: linear-gradient(90deg, $from, $to, $from);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+@mixin lift($y: -4px) {
+    transition: transform 0.3s $ease, box-shadow 0.3s $ease, border-color 0.3s;
+
+    &:hover {
+        transform: translateY($y);
+        box-shadow: 0 12px 30px rgba($accent, 0.25);
+        border-color: rgba($accent, 0.5);
+    }
+}
+
+// ===== Asosiy =====
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: radial-gradient(circle at 15% 10%, $bg-1 0%, $bg-2 45%, $bg-3 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+::selection {
+    background: rgba($accent, 0.45);
+    color: #fff;
+}
+
+// Chiroyli scrollbar
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: $bg-3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient($accent, $accent-2);
+    border-radius: 10px;
+}
+
+// ===== Loading ekrani =====
+body.is-loading {
+    overflow: hidden; // loading paytida sahifa aylanmaydi
+}
+
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: radial-gradient(circle at 50% 40%, $bg-1 0%, $bg-2 55%, $bg-3 100%);
+    transition: opacity 0.7s $ease, visibility 0.7s;
+
+    &.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &__ring {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        display: grid;
+        place-items: center;
+
+        // Aylanuvchi halqa
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 4px solid rgba(#fff, 0.08);
+            border-top-color: $accent;
+            border-right-color: $accent-2;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 40px rgba($accent, 0.35);
+        }
+    }
+
+    &__icon {
+        font-size: 48px;
+        animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    &__brand {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 1px;
+
+        span {
+            color: #e879f9;
+        }
+    }
+
+    &__bar {
+        width: min(320px, 80vw);
+        height: 8px;
+        border-radius: 99px;
+        background: rgba(#fff, 0.1);
+        overflow: hidden;
+    }
+
+    &__fill {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, $accent, $accent-2);
+        box-shadow: 0 0 12px $accent;
+        transition: width 0.3s linear;
+    }
+
+    &__info {
+        display: flex;
+        gap: 10px;
+        font-size: 14px;
+        color: #d1d5db;
+
+        b {
+            color: #fff;
+            min-width: 40px;
+        }
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+// ===== Fon pufakchalari =====
+.bg-blob {
+    position: fixed;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    pointer-events: none;
+    animation: float 14s ease-in-out infinite alternate;
+
+    @each $name, $props in $blobs {
+        &--#{$name} {
+            background: nth($props, 1);
+            width: nth($props, 2);
+            height: nth($props, 2);
+            top: nth($props, 3);
+            left: nth($props, 4);
+        }
+    }
+
+    &--two {
+        animation-delay: -5s;
+    }
+
+    &--three {
+        animation-delay: -9s;
+    }
+}
+
+// ===== Komponentlar =====
+.glass {
+    @include glass;
+}
+
+.gradient-text {
+    @include gradient-text(#fff, #f0abfc);
+    animation: shine 6s linear infinite;
+}
+
+.stats li {
+    @include lift;
+}
+
+.btn-glow {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba($accent, 0.45);
+    transition: box-shadow 0.3s, transform 0.15s;
+
+    &:hover {
+        box-shadow: 0 0 35px rgba($accent, 0.75);
+    }
+
+    // Tugma ustidan o'tadigan yaltirash
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent 30%, rgba(#fff, 0.35) 50%, transparent 70%);
+        transform: translateX(-100%);
+        animation: sweep 3s ease-in-out infinite;
+    }
+}
+
+#thumbs button {
+    transition: transform 0.25s $ease, opacity 0.25s, border-color 0.25s;
+
+    &:hover {
+        transform: scale(1.06);
+    }
+}
+
+#main-image {
+    transition: transform 0.6s $ease;
+
+    &:hover {
+        transform: scale(1.04);
+    }
+}
+
+#cart-count.bump {
+    animation: bump 0.45s $ease;
+}
+
+.faq-item button:hover span {
+    color: #f0abfc;
+}
+
+input,
+textarea {
+    transition: box-shadow 0.25s, border-color 0.25s;
+}
+
+// ===== Skrollda paydo bo'lish =====
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s $ease, transform 0.8s $ease;
+
+    &.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fade-in {
+    animation: fade 0.35s ease;
+}
+
+// ===== Animatsiyalar =====
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(60px, 40px) scale(1.15);
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes sweep {
+    0%,
+    60% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes bump {
+    50% {
+        transform: scale(1.5);
+    }
+}
+
+// Harakatni yoqtirmaydiganlar uchun animatsiyani o'chirish
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}

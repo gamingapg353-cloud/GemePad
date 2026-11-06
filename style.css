@@ -1,0 +1,326 @@
+/* style.scss faylidan olingan CSS versiyasi (brauzer shu faylni ishlatadi).
+   Sass o'rnatilgach: sass style.scss style.css */
+
+/* ===== Asosiy ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: radial-gradient(circle at 15% 10%, #3b0d6b 0%, #14051f 45%, #0b0312 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+::selection {
+    background: rgba(217, 70, 239, 0.45);
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0b0312;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#d946ef, #9333ea);
+    border-radius: 10px;
+}
+
+/* ===== Loading ekrani ===== */
+body.is-loading {
+    overflow: hidden;
+}
+
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: radial-gradient(circle at 50% 40%, #3b0d6b 0%, #14051f 55%, #0b0312 100%);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.7s;
+}
+
+.loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader__ring {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: grid;
+    place-items: center;
+}
+
+.loader__ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.08);
+    border-top-color: #d946ef;
+    border-right-color: #9333ea;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 40px rgba(217, 70, 239, 0.35);
+}
+
+.loader__icon {
+    font-size: 48px;
+    animation: pulse 1.4s ease-in-out infinite;
+}
+
+.loader__brand {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.loader__brand span {
+    color: #e879f9;
+}
+
+.loader__bar {
+    width: min(320px, 80vw);
+    height: 8px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.loader__fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #d946ef, #9333ea);
+    box-shadow: 0 0 12px #d946ef;
+    transition: width 0.3s linear;
+}
+
+.loader__info {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: #d1d5db;
+}
+
+.loader__info b {
+    color: #fff;
+    min-width: 40px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* ===== Fon pufakchalari ===== */
+.bg-blob {
+    position: fixed;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    pointer-events: none;
+    animation: float 14s ease-in-out infinite alternate;
+}
+
+.bg-blob--one {
+    background: #d946ef;
+    width: 420px;
+    height: 420px;
+    top: -120px;
+    left: -100px;
+}
+
+.bg-blob--two {
+    background: #9333ea;
+    width: 360px;
+    height: 360px;
+    top: 40%;
+    left: 85%;
+}
+
+.bg-blob--three {
+    background: #3b82f6;
+    width: 300px;
+    height: 300px;
+    top: 75%;
+    left: 10%;
+}
+
+.bg-blob--two {
+    animation-delay: -5s;
+}
+
+.bg-blob--three {
+    animation-delay: -9s;
+}
+
+/* ===== Komponentlar ===== */
+.glass {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #fff, #f0abfc, #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 6s linear infinite;
+}
+
+.stats li {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
+}
+
+.stats li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(217, 70, 239, 0.25);
+    border-color: rgba(217, 70, 239, 0.5);
+}
+
+.btn-glow {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.45);
+    transition: box-shadow 0.3s, transform 0.15s;
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 35px rgba(217, 70, 239, 0.75);
+}
+
+.btn-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: sweep 3s ease-in-out infinite;
+}
+
+#thumbs button {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s, border-color 0.25s;
+}
+
+#thumbs button:hover {
+    transform: scale(1.06);
+}
+
+#main-image {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#main-image:hover {
+    transform: scale(1.04);
+}
+
+#cart-count.bump {
+    animation: bump 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item button:hover span {
+    color: #f0abfc;
+}
+
+input,
+textarea {
+    transition: box-shadow 0.25s, border-color 0.25s;
+}
+
+/* ===== Skrollda paydo bo'lish ===== */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+.fade-in {
+    animation: fade 0.35s ease;
+}
+
+/* ===== Animatsiyalar ===== */
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(60px, 40px) scale(1.15);
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes sweep {
+    0%,
+    60% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes bump {
+    50% {
+        transform: scale(1.5);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
