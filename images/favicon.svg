@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b1a8c"/>
+      <stop offset="1" stop-color="#3a0f63"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e879f9"/>
+      <stop offset="1" stop-color="#9333ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <circle cx="32" cy="32" r="26" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="3"/>
+  <path d="M32 6 A26 26 0 0 1 58 32" fill="none" stroke="url(#ring)" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- joystik -->
+  <path d="M20 24h24c6 0 9.5 4.5 10.5 10l1.3 8c.7 4.3-3.6 6.8-6.6 3.9L45 42H19l-4.2 3.9c-3 2.9-7.3.4-6.6-3.9l1.3-8C10.5 28.5 14 24 20 24z" fill="#a78bfa" fill-opacity=".75"/>
+  <!-- krestovina -->
+  <rect x="17.5" y="31" width="9" height="3" rx="1" fill="#ede9fe"/>
+  <rect x="20.5" y="28" width="3" height="9" rx="1" fill="#ede9fe"/>
+  <!-- tugmalar -->
+  <circle cx="43" cy="29.5" r="1.9" fill="#facc15"/>
+  <circle cx="46.5" cy="33" r="1.9" fill="#ef4444"/>
+  <circle cx="43" cy="36.5" r="1.9" fill="#22c55e"/>
+  <circle cx="39.5" cy="33" r="1.9" fill="#3b82f6"/>
+</svg>
