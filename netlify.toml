@@ -1,0 +1,16 @@
+# Netlify sozlamalari: Python server o'rniga Netlify Functions ishlaydi (avtomatik).
+[build]
+  publish = "."
+  # C++ hisobotini Linux uchun kompilyatsiya qiladi (Netlify build serverida g++ bor)
+  command = "mkdir -p bin && (g++ -std=c++17 -O2 -static report.cpp -o bin/report || echo 'C++ kompilyatsiya qilinmadi')"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["bin/report"]
+
+# data/ papkasidagi fayllar (buyurtmalar) brauzerdan ochilmasin
+[[redirects]]
+  from = "/data/*"
+  to = "/404.html"
+  status = 404
+  force = true

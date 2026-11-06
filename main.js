@@ -527,10 +527,14 @@ async function loadReport() {
         return;
     }
 
-    setBadge("py-status", `🐍 Python ${report.python}: ulangan`, "ok");
+    setBadge(
+        "py-status",
+        report.server ? `☁️ Server (${report.server}): ulangan` : `🐍 Python ${report.python}: ulangan`,
+        "ok"
+    );
     setBadge(
         "cpp-status",
-        report.cpp.available ? "⚙️ C++: ishlayapti" : "⚙️ C++: report.exe yo'q",
+        report.cpp.available ? "⚙️ C++: ishlayapti" : "⚙️ C++: ulanmagan",
         report.cpp.available ? "ok" : "warn"
     );
 
